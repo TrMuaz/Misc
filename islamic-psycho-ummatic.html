@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ummatic Paradigm of Psychology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design Tokens ── */
+    :root, [data-theme="light"] {
+      --color-bg:             #f7f6f2;
+      --color-surface:        #f9f8f5;
+      --color-surface-2:      #fbfbf9;
+      --color-surface-offset: #f0ede8;
+      --color-divider:        #dcd9d5;
+      --color-border:         #d4d1ca;
+      --color-text:           #28251d;
+      --color-text-muted:     #6b6960;
+      --color-text-faint:     #a8a7a2;
+      --color-primary:        #01696f;
+      --color-primary-hover:  #0c4e54;
+      --color-primary-light:  #e6f0ef;
+      --color-accent:         #7a4012;
+      --color-accent-light:   #f5ebe2;
+      --color-gold:           #8a6200;
+      --color-gold-light:     #f5f0e2;
+      --shadow-sm: 0 1px 3px oklch(0.2 0.01 80 / 0.07);
+      --shadow-md: 0 4px 14px oklch(0.2 0.01 80 / 0.09);
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --font-display: 'Lora', Georgia, serif;
+      --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+      --text-xs:   clamp(0.75rem,  0.7rem + 0.25vw, 0.875rem);
+      --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+      --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl:   clamp(1.5rem,   1.2rem + 1.25vw, 2rem);
+      --text-2xl:  clamp(2rem,     1.4rem + 2vw, 2.75rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+      --space-16: 4rem; --space-20: 5rem;
+    }
+    [data-theme="dark"] {
+      --color-bg:             #171614;
+      --color-surface:        #1c1b19;
+      --color-surface-2:      #211f1d;
+      --color-surface-offset: #262422;
+      --color-divider:        #2e2c29;
+      --color-border:         #353330;
+      --color-text:           #cdccca;
+      --color-text-muted:     #888680;
+      --color-text-faint:     #5a5957;
+      --color-primary:        #4f98a3;
+      --color-primary-hover:  #6db6c0;
+      --color-primary-light:  #1a2f32;
+      --color-accent:         #c88055;
+      --color-accent-light:   #2e1e10;
+      --color-gold:           #d4a82a;
+      --color-gold-light:     #2a2210;
+      --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25);
+      --shadow-md: 0 4px 14px oklch(0 0 0 / 0.35);
+    }
+
+    /* ── Base Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: var(--space-20); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100dvh; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.7; transition: background 0.25s, color 0.25s; }
+    img, svg { display: block; max-width: 100%; }
+    ul, ol { padding: 0; }
+    a { color: var(--color-primary); text-decoration: none; transition: color 0.18s; }
+    a:hover { color: var(--color-primary-hover); }
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.25; text-wrap: balance; color: var(--color-text); }
+    p, li { max-width: 72ch; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+
+    /* ── Header / Nav ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in oklab, var(--color-bg) 90%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-divider);
+      padding: var(--space-3) var(--space-6);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    }
+    .site-logo { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; }
+    .site-logo svg { flex-shrink: 0; }
+    .site-logo-text { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 600; color: var(--color-text); line-height: 1.2; }
+    .site-logo-sub { font-size: var(--text-xs); color: var(--color-text-muted); font-family: var(--font-body); font-weight: 400; }
+    .header-actions { display: flex; align-items: center; gap: var(--space-2); }
+    .theme-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: var(--radius-md);
+      border: 1px solid var(--color-border); background: var(--color-surface);
+      color: var(--color-text-muted); cursor: pointer;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+    }
+    .theme-btn:hover { background: var(--color-surface-offset); color: var(--color-text); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, var(--color-primary-light) 0%, var(--color-bg) 60%);
+      padding: clamp(var(--space-12), 8vw, var(--space-20)) var(--space-6);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .hero-inner { max-width: 760px; margin-inline: auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-primary); background: var(--color-primary-light);
+      border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-full, 9999px);
+      margin-bottom: var(--space-4);
+    }
+    .hero h1 { font-size: var(--text-2xl); color: var(--color-text); margin-bottom: var(--space-3); }
+    .hero-subtitle { font-size: var(--text-base); color: var(--color-text-muted); margin-bottom: var(--space-6); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+    .hero-meta-item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .hero-meta-item svg { color: var(--color-primary); }
+
+    /* ── TOC ── */
+    .toc-wrapper { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-6); margin: var(--space-8) auto; max-width: 760px; box-shadow: var(--shadow-sm); }
+    .toc-title { font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2); }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-1); }
+    .toc-list li a { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); color: var(--color-text-muted); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); transition: background 0.18s, color 0.18s; }
+    .toc-list li a:hover { background: var(--color-surface-offset); color: var(--color-primary); }
+    .toc-num { font-size: var(--text-xs); font-weight: 700; color: var(--color-primary); min-width: 1.5rem; font-family: var(--font-body); }
+
+    /* ── Main Layout ── */
+    .page-body { max-width: 760px; margin-inline: auto; padding: var(--space-8) var(--space-6) var(--space-20); }
+
+    /* ── Section Cards ── */
+    .lesson-section { margin-bottom: var(--space-12); }
+    .section-header {
+      display: flex; align-items: flex-start; gap: var(--space-4);
+      margin-bottom: var(--space-6); padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .section-num {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 2.5rem; height: 2.5rem;
+      background: var(--color-primary-light);
+      border: 1px solid color-mix(in oklab, var(--color-primary) 25%, transparent);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs); font-weight: 700; color: var(--color-primary);
+      font-family: var(--font-body); letter-spacing: 0.05em; flex-shrink: 0; margin-top: 0.2rem;
+    }
+    .section-title-group h2 { font-size: var(--text-xl); margin-bottom: var(--space-1); }
+    .section-title-group p { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+    /* ── Sub-sections ── */
+    .subsection { margin-bottom: var(--space-8); }
+    .subsection h3 {
+      font-size: var(--text-lg); margin-bottom: var(--space-3);
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .subsection h3::before {
+      content: ''; display: block;
+      width: 3px; height: 1.2em;
+      background: var(--color-primary); border-radius: 2px; flex-shrink: 0;
+    }
+    .subsection h4 { font-size: var(--text-base); font-weight: 600; color: var(--color-text); margin-bottom: var(--space-2); margin-top: var(--space-4); font-family: var(--font-body); }
+
+    /* ── Prose ── */
+    .prose p { margin-bottom: var(--space-4); color: var(--color-text); }
+    .prose p:last-child { margin-bottom: 0; }
+
+    /* ── Bullet Lists ── */
+    .bullet-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
+    .bullet-list li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-base); color: var(--color-text); }
+    .bullet-list li::before {
+      content: ''; display: block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-primary); margin-top: 0.55em; flex-shrink: 0;
+    }
+
+    /* ── Numbered Lists ── */
+    .numbered-list { list-style: none; counter-reset: num-list; display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
+    .numbered-list li { display: flex; align-items: flex-start; gap: var(--space-3); counter-increment: num-list; }
+    .numbered-list li::before {
+      content: counter(num-list);
+      display: flex; align-items: center; justify-content: center;
+      min-width: 1.5rem; height: 1.5rem;
+      background: var(--color-primary-light); color: var(--color-primary);
+      font-size: var(--text-xs); font-weight: 700; border-radius: var(--radius-sm);
+      flex-shrink: 0; margin-top: 0.15em;
+    }
+
+    /* ── Cards ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
+    .card {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg); padding: var(--space-4);
+      font-size: var(--text-sm); color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+    }
+    .card-title { font-weight: 600; margin-bottom: var(--space-1); font-size: var(--text-sm); font-family: var(--font-body); color: var(--color-text); }
+    .card-body { color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.55; }
+
+    /* ── Callout ── */
+    .callout {
+      display: flex; align-items: flex-start; gap: var(--space-4);
+      background: var(--color-accent-light);
+      border: 1px solid color-mix(in oklab, var(--color-accent) 20%, transparent);
+      border-radius: var(--radius-lg); padding: var(--space-5); margin: var(--space-6) 0;
+    }
+    .callout-icon { color: var(--color-accent); flex-shrink: 0; margin-top: 0.1rem; }
+    .callout-text { font-size: var(--text-sm); color: var(--color-text); line-height: 1.65; }
+    .callout-text strong { color: var(--color-accent); }
+
+    .callout-gold {
+      background: var(--color-gold-light);
+      border-color: color-mix(in oklab, var(--color-gold) 20%, transparent);
+    }
+    .callout-gold .callout-icon { color: var(--color-gold); }
+    .callout-gold .callout-text strong { color: var(--color-gold); }
+
+    .callout-green {
+      background: var(--color-primary-light);
+      border-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+    }
+    .callout-green .callout-icon { color: var(--color-primary); }
+    .callout-green .callout-text strong { color: var(--color-primary); }
+
+    /* ── Ayat Quote ── */
+    .ayat-block {
+      background: var(--color-gold-light);
+      border-left: 3px solid var(--color-gold);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      padding: var(--space-5) var(--space-6); margin: var(--space-6) 0;
+    }
+    .ayat-text { font-style: italic; font-family: var(--font-display); font-size: var(--text-base); color: var(--color-text); margin-bottom: var(--space-2); line-height: 1.75; }
+    .ayat-ref { font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 600; letter-spacing: 0.05em; }
+
+    /* ── Two-column disciplines ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-top: var(--space-4); }
+    .discipline-col { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); box-shadow: var(--shadow-sm); }
+    .discipline-col h4 { font-family: var(--font-body); font-size: var(--text-sm); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-3); text-transform: uppercase; letter-spacing: 0.08em; }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Objective Tag ── */
+    .objective-tag {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.07em;
+      color: var(--color-text-muted); background: var(--color-surface-offset);
+      border: 1px solid var(--color-border); padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full, 9999px); margin-bottom: var(--space-4);
+    }
+
+    /* ── Learning Objectives Box ── */
+    .objectives-box {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: var(--space-6); margin: var(--space-8) 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .objectives-box h3 { font-size: var(--text-lg); margin-bottom: var(--space-4); color: var(--color-primary); }
+    .objectives-box h3::before { display: none; }
+
+    /* ── Divider ── */
+    .section-divider { border: none; border-top: 1px solid var(--color-divider); margin: var(--space-12) 0; }
+
+    /* ── Footer ── */
+    .site-footer { background: var(--color-surface); border-top: 1px solid var(--color-divider); padding: var(--space-8) var(--space-6); text-align: center; }
+    .site-footer p { font-size: var(--text-xs); color: var(--color-text-muted); margin-inline: auto; }
+
+    /* ── Back to top ── */
+    .back-top { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-4); cursor: pointer; border: none; background: none; }
+    .back-top:hover { color: var(--color-primary); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="#top" class="site-logo" aria-label="Ummatic Paradigm of Psychology">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="var(--color-primary)"/>
+      <circle cx="16" cy="13" r="5" stroke="white" stroke-width="1.8" fill="none"/>
+      <path d="M8 25c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M16 8V5M22 11l2-2M24 17h3" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+    <span>
+      <div class="site-logo-text">Islamic Psychology</div>
+      <div class="site-logo-sub">Ummatic Paradigm</div>
+    </span>
+  </a>
+  <div class="header-actions">
+    <button class="theme-btn" data-theme-toggle aria-label="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      Lecture Notes
+    </div>
+    <h1>Ummatic Paradigm of Psychology</h1>
+    <p class="hero-subtitle">An Islamic reframing of psychology — integrating the soul (<em>ruh</em>), behaviour, and mental processes within a Qur'anic worldview.</p>
+    <div class="hero-meta">
+      <span class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Assoc. Prof. Mastura Badzis
+      </span>
+      <span class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Dept. of Educational Psychology &amp; Counseling — KOED, IIUM
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- TABLE OF CONTENTS -->
+<main class="page-body">
+  <nav class="toc-wrapper" aria-label="Table of Contents">
+    <div class="toc-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      Contents
+    </div>
+    <ul class="toc-list">
+      <li><a href="#sec1"><span class="toc-num">01</span> What is Psychology?</a></li>
+      <li><a href="#sec2"><span class="toc-num">02</span> What is Islamic Psychology?</a></li>
+      <li><a href="#sec3"><span class="toc-num">03</span> Islamic Psychology Sub-disciplines</a></li>
+      <li><a href="#sec4"><span class="toc-num">04</span> History of Psychology: Islamic Perspectives</a></li>
+      <li><a href="#sec5"><span class="toc-num">05</span> Preparing to Study Psychology: Qur'anic Framework</a></li>
+      <li><a href="#sec6"><span class="toc-num">06</span> Learning Tasks</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 1 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title-group">
+        <h2>What is Psychology?</h2>
+        <p>Definitions, scope, and scientific methods</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>Definition</h3>
+      <div class="prose">
+        <p>Psychology is <strong>the scientific study of behavior and mental processes</strong> and how they are affected by an organism's physical state, mental state, and external environment.</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>Scope of Study</h3>
+      <ul class="bullet-list">
+        <li>Behavior and mental processes include <strong>overt, observable instances</strong> but also include subtle kinds of instances, such as brain activity.</li>
+        <li>The study extends to <strong>humans and many other creatures</strong>.</li>
+        <li><strong>Physical state</strong> relates primarily to the organism's biology — most especially the state of the brain and central nervous system.</li>
+        <li><strong>Mental state</strong> does not have to be conscious — it can be studied in many creatures without their conscious awareness, and can be examined in terms of brain activity.</li>
+        <li>All organisms function in an environment that is constantly presenting them with <strong>problems and challenges that must be solved</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <h3>Requirements of Scientific Study</h3>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3);">Scientific study requires several foundational elements:</p>
+      <ol class="numbered-list">
+        <li>Theoretical framework</li>
+        <li>Testable hypotheses</li>
+        <li>Empirical evidence</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <h3>Key Psychological Concepts</h3>
+      <div class="card-grid">
+        <div class="card">Memory and recall</div>
+        <div class="card">Learning</div>
+        <div class="card">Perception and representation</div>
+        <div class="card">Thinking and cognition</div>
+        <div class="card">Creativity</div>
+        <div class="card">Attitudes and behaviour</div>
+        <div class="card">Individual differences and personality</div>
+        <div class="card">Intelligences</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>Schools of Thought</h3>
+      <ul class="bullet-list">
+        <li>Psychodynamics</li>
+        <li>Nativism (Rationalist / Biological)</li>
+        <li>Behaviourism (S-R)</li>
+        <li>Cognitive Psychology</li>
+        <li>Humanistic Psychology</li>
+        <li>Constructivist theories</li>
+        <li>Social Psychology</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 2 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title-group">
+        <h2>What is Islamic Psychology?</h2>
+        <p>Islamic redefinition, implications, and soul-centred approach</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>Islamic Redefinition of Psychology</h3>
+      <div class="callout callout-green">
+        <div class="callout-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="callout-text">
+          Islamic Psychology is <strong>a scientific study of the "manifestation" of the souls in the form of behaviour and mental processes.</strong>
+        </div>
+      </div>
+      <ul class="bullet-list">
+        <li>Still uses scientific methods</li>
+        <li>Still focuses on behaviour and mental processes</li>
+        <li>Accepts the existence of the <strong>soul (<em>ruh</em>)</strong></li>
+        <li>Uses the soul as a <strong>theoretical explanation</strong></li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <h3>Implications of the Islamic Redefinition</h3>
+      <ul class="bullet-list">
+        <li>Does <strong>not neglect</strong> the influence of biological, dispositional, and socio-cultural factors</li>
+        <li>Leads to a <strong>broader and more accurate model</strong> of human nature</li>
+        <li>Leads to a <strong>better understanding of the purpose of human creation</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 3 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title-group">
+        <h2>Islamic Psychology Sub-disciplines</h2>
+        <p>Basic/Pure vs. Applied Psychology from an Islamic perspective</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="discipline-col">
+        <h4>🕌 Basic / Pure Psychology</h4>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3);"><strong>Objective:</strong> To increase understanding of human behaviour and mental processes; and at the same time to receive <em>hidayah</em>.</p>
+        <p style="font-size: var(--text-sm); color: var(--color-text);">Mission of <strong><em>'ibadah</em></strong> — psychologists as servants of Allah</p>
+      </div>
+      <div class="discipline-col">
+        <h4>🌐 Applied Psychology</h4>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3);"><strong>Objective:</strong> To help solve human problems so that they will receive <em>hidayah</em>.</p>
+        <p style="font-size: var(--text-sm); color: var(--color-text);">Mission of <strong><em>khilafah</em></strong> — psychologists as representatives of Allah</p>
+      </div>
+    </div>
+
+    <div class="subsection" style="margin-top: var(--space-8);">
+      <h3>Islamic Basic Psychology — Reflection Exercise</h3>
+      <div class="callout callout-gold">
+        <div class="callout-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="callout-text"><strong>Discussion Prompt:</strong> How would you Islamically redefine the following sub-disciplines?</div>
+      </div>
+      <div class="card-grid">
+        <div class="card">Abnormal Psychology</div>
+        <div class="card">Biological Psychology</div>
+        <div class="card">Cognitive Psychology</div>
+        <div class="card">Comparative Psychology</div>
+        <div class="card">Cultural Psychology</div>
+        <div class="card">Developmental Psychology</div>
+        <div class="card">Experimental Psychology</div>
+        <div class="card">Personality Psychology</div>
+        <div class="card">Psychometrics</div>
+        <div class="card">Social Psychology</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>Islamic Applied Psychology — Areas of Practice</h3>
+      <div class="card-grid">
+        <div class="card">Clinical Psychology</div>
+        <div class="card">Counselling Psychology</div>
+        <div class="card">Educational Psychology</div>
+        <div class="card">Engineering Psychology</div>
+        <div class="card">Environmental Psychology</div>
+        <div class="card">Forensic Psychology</div>
+        <div class="card">Health Psychology</div>
+        <div class="card">Sport Psychology</div>
+        <div class="card">Consumer Psychology</div>
+        <div class="card">Family Psychology</div>
+        <div class="card">Political Psychology</div>
+        <div class="card">Psychology of Religion</div>
+        <div class="card">Space Psychology</div>
+        <div class="card">Traffic Psychology</div>
+        <div class="card">Aviation Psychology</div>
+        <div class="card">Media Psychology</div>
+        <div class="card">Psychology of Music</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 4 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title-group">
+        <h2>History of Psychology: Islamic Perspectives</h2>
+        <p>A chronological overview from prophetic history to modernity</p>
+      </div>
+    </div>
+
+    <ol class="numbered-list">
+      <li>The creation of Adam (AS) and Eve — the origin of human psychology</li>
+      <li>Prophets (AS) as agents of psychological change — models of guidance and transformation</li>
+      <li>Ancient European, Middle-Eastern, and Asian civilisations — early frameworks of mind and soul</li>
+      <li>Golden Era of Islam — flourishing of Islamic scholarship, philosophy, and medicine</li>
+      <li>Modern history of Psychology — contemporary developments and the need for Islamization</li>
+    </ol>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 5 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title-group">
+        <h2>Preparing to Study Psychology: Qur'anic Framework</h2>
+        <p>Lessons from Surah al-Fatihah and early Surah al-Baqarah</p>
+      </div>
+    </div>
+
+    <!-- 5.1 -->
+    <div class="subsection">
+      <h3>5.1 Surah Al-Fatihah as a Framework</h3>
+      <div class="prose">
+        <p>Al-Qur'an is a book of knowledge and wisdom. There must be some lessons for human beings in why Allah begins a book full of knowledge and wisdom with Surah al-Fatihah. These lessons should be applied whenever we are seeking for knowledge and wisdom from other sources given by Allah.</p>
+      </div>
+
+      <h4>Before We Study Psychology, We Must…</h4>
+      <ul class="bullet-list">
+        <li>Have a <strong>sahih cognitive belief (<em>'aqidah</em>)</strong> in terms of <em>tawhid rububiyyah</em> (AQ 1:2) and <em>uluhiyyah</em> (AQ 1:5)</li>
+        <li>Have <strong><em>khushu'</em> affective feelings</strong> in terms of love (AQ 1:3), fear (AQ 1:4), and hope (AQ 1:6)</li>
+        <li>Have <strong>distinct observable behaviours</strong> that differentiate us from non-<em>hidayah</em> groups (AQ 1:7)</li>
+        <li>Sincerely want to <strong>gain <em>hidayah</em></strong> in studying psychology</li>
+      </ul>
+    </div>
+
+    <!-- 5.2 -->
+    <div class="subsection">
+      <h3>5.2 Early Surah Al-Baqarah as a Compass</h3>
+      <ul class="bullet-list">
+        <li>Accept that Al-Qur'an is the <strong>ultimate source</strong> to find the truth about psychology (AQ 2:2)</li>
+        <li>Strive to be in the group of <strong><em>muttaqin</em></strong> because only <em>muttaqin</em> will gain <em>hidayah</em> (AQ 2:2–5)</li>
+        <li>Strive to avoid being the group of <strong><em>kuffar</em></strong> (AQ 2:6–7) and <strong><em>munafiqin</em></strong> (AQ 2:8–20)</li>
+        <li>The variables that differentiate the three groups are the <strong>soul</strong> — manifested in the forms of behaviours and mental processes</li>
+      </ul>
+    </div>
+
+    <!-- Soul complexity -->
+    <div class="subsection">
+      <h3>The Soul and Human Complexity</h3>
+      <div class="prose">
+        <p>The rulings, stories, arguments, etc. given in the al-Qur'an ALL contain <em>hidayah</em> messages for our souls — on how to behave and think (mental processes), and sometimes why we behave or think in certain ways.</p>
+        <p>Because of the existence of the soul (<strong>body × spirit</strong>), human beings are the most complex creation. It is very easy to be inaccurate (and sometimes un-Islamic) in social scientific theories, research, and applications.</p>
+      </div>
+    </div>
+
+    <!-- Sources of knowledge -->
+    <div class="subsection">
+      <h3>Sources of Psychological Knowledge in Islam</h3>
+      <div class="callout">
+        <div class="callout-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="callout-text">
+          Although al-Qur'an is the <strong>ultimate source</strong> for psychological knowledge, this does not mean that al-Qur'an is the sole source.
+        </div>
+      </div>
+
+      <h4>Reasons Why Al-Qur'an Is Not the Sole Source:</h4>
+      <ul class="bullet-list">
+        <li>Qur'an is not a book of psychology — it is a <strong>book of <em>hidayah</em></strong></li>
+        <li>Qur'an urged us to <strong>study our own souls/selves</strong></li>
+        <li><em>Hidayah</em> can be gained through:
+          <ul style="margin-top: var(--space-2); padding-left: var(--space-5); list-style: disc; color: var(--color-text-muted); font-size: var(--text-sm);">
+            <li>Readable <strong><em>āyāt maqrū'ah</em></strong> — signs of al-Qur'an</li>
+            <li>Observable <strong><em>āyāt manẓūrah</em></strong> — signs found in creation</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>Qur'anic Evidence — Self-Reflection as a Method:</h4>
+
+      <div class="ayat-block">
+        <p class="ayat-text">"On the earth are signs for those of assured faith. As also in your own souls/selves — will you not then see?"</p>
+        <span class="ayat-ref">Surah al-Dhariyat 51:20–21</span>
+      </div>
+
+      <div class="ayat-block">
+        <p class="ayat-text">"Do they not reflect in their own souls/selves?"</p>
+        <span class="ayat-ref">Surah al-Rum 30:8</span>
+      </div>
+
+      <div class="ayat-block">
+        <p class="ayat-text">"Soon We will show them Our signs in the (furthest) regions (of the earth), and in their own souls/selves — until it becomes clear to them that this is the Truth."</p>
+        <span class="ayat-ref">Surah Fussilat 41:53</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 6: LEARNING TASKS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="lesson-section" id="sec6">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-title-group">
+        <h2>Learning Tasks</h2>
+        <p>Applying the ummatic paradigm in your study of psychology</p>
+      </div>
+    </div>
+
+    <div class="objectives-box">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:middle; margin-right: var(--space-2);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        By the end of this topic, students should be able to:
+      </h3>
+      <ol class="numbered-list">
+        <li>Use Surah al-Fatihah and early Surah al-Baqarah to prepare themselves in their study of psychology</li>
+        <li>Redefine psychology Islamically</li>
+        <li>Relate some basic and applied psychology disciplines with the role of <em>'abid</em> and <em>khalifah</em></li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Lecture notes based on: <strong>Ummatic Paradigm of Psychology</strong> — Assoc. Prof. Mastura Badzis, Dept. of Educational Psychology &amp; Counseling, KOED, IIUM.</p>
+  <br>
+  <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+    Back to top
+  </button>
+</footer>
+
+<script>
+  (function(){
+    const t = document.querySelector('[data-theme-toggle]');
+    const r = document.documentElement;
+    let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+    r.setAttribute('data-theme', d);
+    const sunIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+    const moonIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    if (t) {
+      t.innerHTML = d === 'dark' ? sunIcon : moonIcon;
+      t.addEventListener('click', () => {
+        d = d === 'dark' ? 'light' : 'dark';
+        r.setAttribute('data-theme', d);
+        t.innerHTML = d === 'dark' ? sunIcon : moonIcon;
+        t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
