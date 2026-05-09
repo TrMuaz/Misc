@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDIE 7360 Cover Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #eef4fb, #dfeaf5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1280px;
+      min-height: 720px;
+      background: #ffffff;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+      position: relative;
+    }
+
+    .top-bar {
+      height: 16px;
+      background: linear-gradient(90deg, #0b4f7a, #1f7aa8, #67c3d0);
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 20px;
+      padding: 48px;
+      align-items: center;
+      min-height: calc(720px - 16px);
+    }
+
+    .left {
+      padding-right: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e8f3ff;
+      color: #0b4f7a;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-size: 42px;
+      line-height: 1.18;
+      color: #15324a;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #566b7d;
+      margin-bottom: 28px;
+      max-width: 650px;
+    }
+
+    .info-box {
+      background: #f7fbff;
+      border-left: 6px solid #1f7aa8;
+      border-radius: 16px;
+      padding: 20px 22px;
+      max-width: 560px;
+    }
+
+    .info-box h3 {
+      color: #0b4f7a;
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .members {
+      list-style: none;
+    }
+
+    .members li {
+      font-size: 15px;
+      color: #334b5c;
+      padding: 6px 0;
+      border-bottom: 1px solid #e2edf6;
+    }
+
+    .members li:last-child {
+      border-bottom: none;
+    }
+
+    .right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-frame {
+      width: 100%;
+      max-width: 560px;
+      background: linear-gradient(180deg, #ffffff, #f5faff);
+      border: 1px solid #d9e7f2;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(31, 122, 168, 0.10);
+    }
+
+    .image-frame img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      object-fit: cover;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      left: 48px;
+      right: 48px;
+      display: flex;
+      justify-content: space-between;
+      color: #7890a3;
+      font-size: 14px;
+    }
+
+    .circle1, .circle2 {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.10;
+      z-index: 0;
+    }
+
+    .circle1 {
+      width: 220px;
+      height: 220px;
+      background: #67c3d0;
+      top: -70px;
+      right: -70px;
+    }
+
+    .circle2 {
+      width: 180px;
+      height: 180px;
+      background: #1f7aa8;
+      bottom: -60px;
+      left: -60px;
+    }
+
+    @media (max-width: 960px) {
+      .wrapper {
+        grid-template-columns: 1fr;
+        padding: 30px;
+      }
+
+      .title {
+        font-size: 30px;
+      }
+
+      .footer {
+        position: static;
+        margin: 0 30px 24px;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-bar"></div>
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+
+    <div class="wrapper">
+      <div class="left">
+        <div class="tag">COURSE PRESENTATION</div>
+
+        <h1 class="title">
+          EDIE 7360<br>
+          Design and Development of Islamic Education Resources (A-D-D-I-E)
+        </h1>
+
+        <p class="desc">
+          A clean first-page academic cover design with an illustrated group visual
+          and member details for presentation or report use.
+        </p>
+
+        <div class="info-box">
+          <h3>Prepared By</h3>
+          <ul class="members">
+            <li>Ahmad Mu`az Bin Mohamad Room — G2517793</li>
+            <li>Johan Faris Bin Eri Pibra — G2422929</li>
+            <li>Phongsanti Fadil — G2429445</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="image-frame">
+          <img src="Gambo.jpg" alt="Group illustration">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Islamic Education Resource Design</div>
+      <div>First Page Cover</div>
+    </div>
+  </div>
+</body>
+</html>
