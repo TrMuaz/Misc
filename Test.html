@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sample Lesson with Canva Slides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background-color: #0f766e;
+      color: white;
+      padding: 1rem 1.5rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 1.5rem auto;
+      padding: 1rem 1.25rem 2rem;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #0f766e;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .slides-wrapper {
+      margin-top: 1.5rem;
+    }
+
+    /* Make iframe responsive */
+    .slides-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .slides-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.75rem;
+    }
+
+    footer {
+      max-width: 960px;
+      margin: 0 auto 2rem;
+      font-size: 0.85rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sample Lesson Page with Canva Slides</h1>
+  </header>
+
+  <main>
+    <h2>Lesson: Introduction Slides</h2>
+    <p>
+      This page shows how a Canva presentation can be embedded inside a normal
+      HTML lesson page hosted on GitHub Pages. Students can view and navigate
+      the slides directly in the browser.
+    </p>
+
+    <div class="slides-wrapper">
+      <h3>Slides (Canva Embed)</h3>
+      <div class="slides-embed">
+        <!-- Replace this iframe with the official Canva embed code when available -->
+        <iframe
+          src="https://www.canva.com/design/DAHJlnLnvsY/o-Qgmb4Pk8gJMxH7v4eUZg/view?embed"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+      <p class="note">
+        If the slides do not load, please check that the Canva design is set to
+        be shared publicly or use the official embed code from Canva’s
+        <strong>Share → Embed</strong> option.
+      </p>
+    </div>
+
+    <h3>Teacher Notes</h3>
+    <p>
+      You can add instructions for students here, such as which slides to review,
+      reflection questions, or links to quizzes and worksheets.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 Your School &ndash; Sample GitHub Pages + Canva integration
+  </footer>
+</body>
+</html>
