@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sample Lesson with Canva Slides</title>
+  <title>Canva Embed vs Smart Embed Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
@@ -38,16 +38,21 @@
       color: #0f766e;
     }
 
+    h3 {
+      margin-top: 2rem;
+      color: #111827;
+    }
+
     p {
       line-height: 1.6;
     }
 
-    .slides-wrapper {
-      margin-top: 1.5rem;
+    .embed-section {
+      margin-top: 1.25rem;
     }
 
-    /* Make iframe responsive */
-    .slides-embed {
+    /* Simple smart-embed style (responsive wrapper) */
+    .smart-embed-wrapper {
       position: relative;
       width: 100%;
       padding-bottom: 56.25%; /* 16:9 ratio */
@@ -57,10 +62,9 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .slides-embed iframe {
+    .smart-embed-wrapper iframe {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       border: 0;
@@ -83,43 +87,60 @@
 </head>
 <body>
   <header>
-    <h1>Sample Lesson Page with Canva Slides</h1>
+    <h1>Canva Embed Comparison Page</h1>
   </header>
 
   <main>
-    <h2>Lesson: Introduction Slides</h2>
+    <h2>Same Canva Design, Two Embed Methods</h2>
     <p>
-      This page shows how a Canva presentation can be embedded inside a normal
-      HTML lesson page hosted on GitHub Pages. Students can view and navigate
-      the slides directly in the browser.
+      This page embeds the same Canva design twice. The first block uses a simple
+      iframe (“smart embed style”), and the second block uses the full HTML embed
+      code provided by Canva.
     </p>
 
-    <div class="slides-wrapper">
-      <h3>Slides (Canva Embed)</h3>
-      <div class="slides-embed">
-        <!-- Replace this iframe with the official Canva embed code when available -->
+    <!-- 1) Simple / smart-embed style -->
+    <section class="embed-section">
+      <h3>1. Simple iframe (smart embed style)</h3>
+      <p class="note">
+        This version uses a minimal responsive wrapper and a clean iframe src
+        with <code>?embed</code> appended to your Canva view link.
+      </p>
+      <div class="smart-embed-wrapper">
         <iframe
+          loading="lazy"
           src="https://www.canva.com/design/DAHJlnLnvsY/o-Qgmb4Pk8gJMxH7v4eUZg/view?embed"
           allowfullscreen
-          loading="lazy">
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- 2) Full Canva HTML embed (as given by Canva) -->
+    <section class="embed-section">
+      <h3>2. Full Canva HTML embed block</h3>
+      <p class="note">
+        This is the unmodified HTML embed code from Canva, including its own
+        wrapper styling and the credit link under the embed.
+      </p>
+
+      <!-- Begin Canva HTML embed block -->
+      <div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+        padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+        border-radius: 8px; will-change: transform;">
+        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
+          src="https://www.canva.com/design/DAHJlnLnvsY/o-Qgmb4Pk8gJMxH7v4eUZg/view?embed"
+          allowfullscreen="allowfullscreen" allow="fullscreen">
         </iframe>
       </div>
-      <p class="note">
-        If the slides do not load, please check that the Canva design is set to
-        be shared publicly or use the official embed code from Canva’s
-        <strong>Share → Embed</strong> option.
-      </p>
-    </div>
-
-    <h3>Teacher Notes</h3>
-    <p>
-      You can add instructions for students here, such as which slides to review,
-      reflection questions, or links to quizzes and worksheets.
-    </p>
+      <a href="https://www.canva.com/design/DAHJlnLnvsY/o-Qgmb4Pk8gJMxH7v4eUZg/view?utm_content=DAHJlnLnvsY&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link"
+         target="_blank" rel="noopener">
+        Design
+      </a> by Ahmad Mu'az Mohamad Room
+      <!-- End Canva HTML embed block -->
+    </section>
   </main>
 
   <footer>
-    &copy; 2026 Your School &ndash; Sample GitHub Pages + Canva integration
+    &copy; 2026 Your School &ndash; Canva embed comparison
   </footer>
 </body>
 </html>
