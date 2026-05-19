@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>九年级 Fardhu Ain 互动测验</title>
+<style>
+  body { font-family: Arial, "Microsoft YaHei", sans-serif; max-width: 900px; margin: 20px auto; line-height: 1.6; }
+  .question { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 6px; }
+  .question h3 { margin-top: 0; }
+  .options label { display: block; margin: 4px 0; }
+  .result { margin-top: 8px; font-weight: bold; }
+  .correct { color: green; }
+  .incorrect { color: red; }
+  button.check { margin-top: 8px; }
+  #scoreBox { margin: 20px 0; font-size: 1.1em; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>九年级 Fardhu Ain 40 题互动选择题测验</h1>
+<p>选择一个正确答案，然后点击“检查答案”。如果答错，会显示中文解释帮助你理解。</p>
+
+<div id="scoreBox">已完成：0 / 40 题，得分：0 分</div>
+
+<div id="quiz"></div>
+
+<script>
+const questions = [
+  {
+    text: "1. 根据伊斯兰，穆斯林在今世生活的主要目标是什么？",
+    options: [
+      "崇拜真主并遵守祂的命令",
+      "尽可能多赚钱",
+      "跟随朋友喜欢的东西",
+      "到处旅游看世界"
+    ],
+    correct: 0,
+    explanation: "伊斯兰教导人类被创造的目的，是为了崇拜真主并遵行祂的指引，而不是单纯追求今世享乐。"
+  },
+  {
+    text: "2. 当今世的生命结束之后，每个人会发生什么？",
+    options: [
+      "他们会被审判，然后进入乐园或火狱",
+      "他们会永远消失，没有结果",
+      "他们会自动变成天使",
+      "他们会再转世为另一个人"
+    ],
+    correct: 0,
+    explanation: "伊斯兰信仰末日审判，之后人将根据自己的行为被安置在乐园或火狱。"
+  },
+  {
+    text: "3. 穆斯林最先从哪里知道什么是对、什么是错？",
+    options: [
+      "来自使者带来的教导",
+      "来自本地文化习俗",
+      "来自社交媒体的潮流",
+      "完全靠自己的感觉和猜测"
+    ],
+    correct: 0,
+    explanation: "判断对错的首要依据是启示，即真主通过使者降示的教导。"
+  },
+  {
+    text: "4. 在《古兰经》中，明确提到名字的先知有多少位？",
+    options: ["25 位", "10 位", "20 位", "50 位"],
+    correct: 0,
+    explanation: "学者根据经文统计，《古兰经》中点名提到的先知共有 25 位。"
+  },
+  {
+    text: "5. 真主派遣给全人类的最后一位使者是谁？",
+    options: [
+      "穆罕默德先知 ﷺ",
+      "穆萨先知 عليه السلام",
+      "尔撒先知 عليه السلام",
+      "努哈先知 عليه السلام"
+    ],
+    correct: 0,
+    explanation: "穆罕默德 ﷺ 是最后一位使者，之后再没有新的先知降临。"
+  },
+  {
+    text: "6. 在伊斯兰中，“奇迹”（mu'jizah）是什么意思？",
+    options: [
+      "真主赐给先知、别人无法模仿的超常事件",
+      "从书本学来的魔术表演",
+      "任何让人惊讶的意外",
+      "晚上做的奇怪梦境"
+    ],
+    correct: 0,
+    explanation: "奇迹是为了证明先知的真实性，由真主创造，普通人无法复制。"
+  },
+  {
+    text: "7. 为什么真主会以奇迹支持祂的先知？",
+    options: [
+      "为了证明他们确实从真主接受启示",
+      "只是为了娱乐大众",
+      "为了让他们随意违反教法",
+      "为了让他们拥有更多财富"
+    ],
+    correct: 0,
+    explanation: "奇迹的主要目的，是证明先知的使命真实可信。"
+  },
+  {
+    text: "8. 穆罕默德先知 ﷺ 出生在下列哪一座蒙福的城市？",
+    options: ["麦加", "麦地那", "塔伊夫", "耶路撒冷"],
+    correct: 0,
+    explanation: "穆罕默德 ﷺ 出生在阿拉伯半岛的圣城麦加。"
+  },
+  {
+    text: "9. 从伊斯兰信仰来看，《古兰经》是什么？",
+    options: [
+      "真主降示给穆罕默德 ﷺ 的确切话语",
+      "学者编写的教科书",
+      "阿拉伯人写的历史故事书",
+      "只谈法律和刑罚的书"
+    ],
+    correct: 0,
+    explanation: "《古兰经》是未被歪曲的真主之言，而不是人类编写的作品。"
+  },
+  {
+    text: "10. 《古兰经》一共有多少章（苏拉）？",
+    options: ["114 章", "30 章", "99 章", "120 章"],
+    correct: 0,
+    explanation: "穆斯林一致公认，《古兰经》共有 114 章。"
+  },
+  {
+    text: "11. 《古兰经》被分成多少个“卷”（juz'）？",
+    options: ["30 卷", "60 卷", "99 卷", "114 卷"],
+    correct: 0,
+    explanation: "方便背诵和诵读，《古兰经》被划分为 30 个部分（juz'）。"
+  },
+  {
+    text: "12. 为什么穆斯林应该每天尽量读一点《古兰经》？",
+    options: [
+      "因为这会加强我们与真主的联系并得到回赐",
+      "只是为了给别人留下好印象",
+      "只是为了应付学校考试",
+      "只是在无聊时找点事做"
+    ],
+    correct: 0,
+    explanation: "经常诵读《古兰经》能净化心灵、增加善功，并保持对真主的记念。"
+  },
+  {
+    text: "13. 在复生日，那位平时经常读《古兰经》的人会得到什么？",
+    options: [
+      "《古兰经》会为他求情并帮助他",
+      "《古兰经》会控诉他",
+      "《古兰经》会消失不理他",
+      "《古兰经》会让他多得罪过"
+    ],
+    correct: 0,
+    explanation: "圣训提到，《古兰经》会为常常诵读它的人作见证并求情。"
+  },
+  {
+    text: "14. 读《古兰经》时，每读一个字母，一般记载可得到多少善功？",
+    options: [
+      "十个善功",
+      "一个善功",
+      "立刻被赦免所有罪过",
+      "必定在今世变得富有"
+    ],
+    correct: 0,
+    explanation: "圣训中说：每个字母有十倍报酬，显示真主的巨大慈悯。"
+  },
+  {
+    text: "15. 什么是“圣训”（Hadith）？",
+    options: [
+      "穆罕默德 ﷺ 的言行及默许的记载",
+      "真主的原话",
+      "学者编写的书",
+      "任何人的演讲稿"
+    ],
+    correct: 0,
+    explanation: "圣训记录了先知的言语、行为以及他默认的事情，是理解教法的重要来源。"
+  },
+  {
+    text: "16. 既然已经有《古兰经》，穆斯林为什么还需要圣训？",
+    options: [
+      "因为圣训解释了如何实践《古兰经》里的命令",
+      "因为圣训废除了整部《古兰经》",
+      "因为圣训只是历史，不关实践",
+      "因为圣训比《古兰经》更重要"
+    ],
+    correct: 0,
+    explanation: "圣训是对启示的详细说明，例如如何礼拜、如何缴纳天课等。"
+  },
+  {
+    text: "17. 《古兰经》命令穆斯林“立行礼拜”。圣训在这条命令上起什么作用？",
+    options: [
+      "详细说明礼拜的方式、时间和拜数",
+      "把正礼拜变成自愿拜",
+      "叫穆斯林不要礼拜",
+      "只讲自愿礼拜"
+    ],
+    correct: 0,
+    explanation: "礼拜的具体动作、拜数和时间主要来自先知的圣训示范。"
+  },
+  {
+    text: "18. “行为圣训”（Hadith Fi'li）指的是哪一类先知信息？",
+    options: [
+      "关于先知 ﷺ 的实际行为记录，例如他怎样礼拜和朝觐",
+      "他沉默没有反对的情况",
+      "他口头说出的句子",
+      "仅仅是同伴的故事"
+    ],
+    correct: 0,
+    explanation: "行为圣训描述先知的行动，使我们可以效法他的做法。"
+  },
+  {
+    text: "19. 当先知 ﷺ 说出一句话，后人把它传述下来，这属于哪一类圣训？",
+    options: [
+      "言语圣训（Qawli）",
+      "行为圣训（Fi'li）",
+      "默许圣训（Taqriri）",
+      "薄弱圣训"
+    ],
+    correct: 0,
+    explanation: "言语圣训记录的就是先知口头说出的内容。"
+  },
+  {
+    text: "20. 如果先知 ﷺ 看到同伴做某件事而没有制止，这属于哪一种圣训？",
+    options: [
+      "默许圣训（Taqriri）",
+      "言语圣训（Qawli）",
+      "行为圣训（Fi'li）",
+      "不属于任何圣训"
+    ],
+    correct: 0,
+    explanation: "先知的沉默表示许可，因此称为“默许圣训”。"
+  },
+  {
+    text: "21. 在圣训学中，“六大本”（Kutub al‑Sittah）是什么意思？",
+    options: [
+      "六部著名的圣训经典",
+      "四部重要的经书",
+      "十本注释书",
+      "七本先知传记"
+    ],
+    correct: 0,
+    explanation: "六大本是穆斯林常用的六部权威圣训集的统称。"
+  },
+  {
+    text: "22. 一则圣训被认为“正确可靠”（sahih），其传述者需要具备什么条件？",
+    options: [
+      "诚实可靠并且记忆力好",
+      "非常富有而且有名",
+      "来自同一个部族",
+      "生活在同一个时代即可"
+    ],
+    correct: 0,
+    explanation: "圣训学要求传述者品德端正、诚实守信，同时记忆准确。"
+  },
+  {
+    text: "23. 什么是“开斋捐”（Zakat al‑Fitr）？",
+    options: [
+      "在斋月结束时，为净化斋戒而交出的特别施舍",
+      "政府征收的一般税收",
+      "仅用于建清真寺的捐款",
+      "任何月份随意给出的施舍"
+    ],
+    correct: 0,
+    explanation: "开斋捐在开斋节礼拜前交出，用以补足斋月中的不足并帮助穷人。"
+  },
+  {
+    text: "24. 谁有义务缴纳“财产天课”（Zakat al‑Mal）？",
+    options: [
+      "财产达到尼萨布并持有一回历年的穆斯林",
+      "每一个小孩，不论是否有财产",
+      "只限宗教老师和伊玛目",
+      "任何非穆斯林公民"
+    ],
+    correct: 0,
+    explanation: "财产天课只对有一定数额财富并满一阴历年的穆斯林成为义务。"
+  },
+  {
+    text: "25. 下列哪一项是开斋捐成为义务的主要条件之一？",
+    options: [
+      "是穆斯林并在开斋夜拥有多余的食物",
+      "必须年满 21 岁",
+      "必须拥有房子和汽车",
+      "必须背诵很多苏拉"
+    ],
+    correct: 0,
+    explanation: "只要穆斯林在开斋夜有多出的口粮，就应交出开斋捐。"
+  },
+  {
+    text: "26. 对于年幼的孩子，谁负责任替他们交开斋捐？",
+    options: [
+      "家庭的监护人或家长",
+      "学校校长",
+      "当地的伊玛目",
+      "孩子自己"
+    ],
+    correct: 0,
+    explanation: "监护人代表家中成员，包括小孩，交出开斋捐。"
+  },
+  {
+    text: "27. 交开斋捐时，最合适给出的是什么食物？",
+    options: [
+      "当地人日常主食",
+      "昂贵的糖果",
+      "任何没人想要的食物",
+      "只能给水果"
+    ],
+    correct: 0,
+    explanation: "开斋捐应以本地常吃的主食发放，让穷人也能过节。"
+  },
+  {
+    text: "28. 开斋捐一般是分配给哪一群人？",
+    options: [
+      "符合条件的八类受助者（阿斯纳夫）",
+      "来旅游的游客",
+      "只给政府官员",
+      "只给个人朋友"
+    ],
+    correct: 0,
+    explanation: "开斋捐属于天课的一种，应发给《古兰经》中提到的各类有需要的人。"
+  },
+  {
+    text: "29. 在马来西亚，今天通常用哪种基本食物来交开斋捐？",
+    options: ["大米", "面包", "玉米", "只用椰枣"],
+    correct: 0,
+    explanation: "在马来西亚，习惯以大米作为开斋捐的主食。"
+  },
+  {
+    text: "30. 朝觐是伊斯兰五大支柱中的第几个？",
+    options: ["第五个支柱", "第一个支柱", "第二个支柱", "第三个支柱"],
+    correct: 0,
+    explanation: "五功依次为：作证言、礼拜、天课、斋戒、朝觐，因此朝觐是第五。"
+  },
+  {
+    text: "31. 根据伊斯兰史，哪位先知与儿子一起重建了天房（克尔白）？",
+    options: [
+      "易卜拉欣先知 عليه السلام",
+      "达乌德先知 عليه السلام",
+      "尔撒先知 عليه السلام",
+      "优努斯先知 عليه السلام"
+    ],
+    correct: 0,
+    explanation: "易卜拉欣 عليه السلام 与其子伊斯玛仪 عليه السلام 一同重建克尔白。"
+  },
+  {
+    text: "32. 朝觐的主要仪式发生在伊斯兰历的哪个月份？",
+    options: ["杜尔·黑哲月（Dhu al‑Hijjah）", "斋月", "穆哈兰姆月", "沙尔邦月"],
+    correct: 0,
+    explanation: "朝觐只在杜尔·黑哲月进行，例如九号在阿拉法站立。"
+  },
+  {
+    text: "33. 为哈哲尔和伊斯玛仪出现的那口奇迹之泉叫什么？",
+    options: ["宰姆宰姆泉", "考塞尔河", "塔布克泉", "马尔瓦泉"],
+    correct: 0,
+    explanation: "真主在沙漠中使宰姆宰姆泉涌出，供给母子饮用，成为著名奇迹。"
+  },
+  {
+    text: "34. 在进入戒衣状态（Ihram）时，下列哪一项是被禁止的？",
+    options: [
+      "无故修剪指甲",
+      "诵念塔尔比亚",
+      "诚心祈祷（杜阿）",
+      "在米那停留"
+    ],
+    correct: 0,
+    explanation: "戒衣状态下不得修剪毛发和指甲等，否则需要赔补。"
+  },
+  {
+    text: "35. “辞别环游”（Tawaf al‑Wada'）最恰当的解释是哪一项？",
+    options: [
+      "离开麦加前所做的告别环游",
+      "刚进清真寺时的第一次环游",
+      "任何时间完全自愿的环游",
+      "只在开斋节当天做的环游"
+    ],
+    correct: 0,
+    explanation: "离开圣地前做的最后一次环绕天房，称为告别环游。"
+  },
+  {
+    text: "36. 下列哪一项不是使朝觐成为义务的条件？",
+    options: ["是老师身份", "是穆斯林", "有理智", "有能力负担旅程"],
+    correct: 0,
+    explanation: "职业不是条件，真正的条件包括伊斯兰、理智、成年及经济与身体能力。"
+  },
+  {
+    text: "37. 对于有能力的穆斯林，一生中朝觐至少在义务上要做多少次？",
+    options: ["至少一次", "两次", "三次", "每年一次"],
+    correct: 0,
+    explanation: "朝觐的义务是“一生一次”，多做则属于自愿。"
+  },
+  {
+    text: "38. 在夜行登霄（Isra' wal‑Mi'raj）事件中，为穆罕默德 ﷺ 的教民特别确定了哪项功修？",
+    options: [
+      "每日五番礼拜（由五十减至五）",
+      "斋月斋戒",
+      "财产天课",
+      "每年都必须朝觐"
+    ],
+    correct: 0,
+    explanation: "原本规定五十拜，经多次请求后减至每天五番礼拜，但报酬仍如五十。"
+  },
+  {
+    text: "39. 在迁徙过程中，为什么先知 ﷺ 和艾卜·伯克尔 رضي الله عنه 躲在“萨乌尔山洞”里？",
+    options: [
+      "为了躲避古莱什谋杀他们的阴谋",
+      "为了在朝觐途中度假",
+      "为了在洞里寻找宝藏",
+      "为了给精灵讲解《古兰经》"
+    ],
+    correct: 0,
+    explanation: "古莱什计划暗杀先知，因此他与同伴暂时藏身洞中以安全迁往麦地那。"
+  },
+  {
+    text: "40. 在迁徙期间，艾斯玛·宾特·艾卜·伯克尔 رضي الله عنها 做了什么勇敢的事情？",
+    options: [
+      "冒着危险，暗中把食物和物资送到山洞",
+      "率领穆斯林军队作战",
+      "独自留在麦加治理城市",
+      "亲自写下全部《古兰经》"
+    ],
+    correct: 0,
+    explanation: "她多次冒险给先知和父亲送食物与消息，因此被称为“双腰带的艾斯玛”。"
+  }
+];
+
+let answeredCount = 0;
+let score = 0;
+const quizDiv = document.getElementById("quiz");
+const scoreBox = document.getElementById("scoreBox");
+
+questions.forEach((q, index) => {
+  const qDiv = document.createElement("div");
+  qDiv.className = "question";
+  qDiv.innerHTML = `
+    <h3>${q.text}</h3>
+    <div class="options">
+      ${q.options.map((opt, i) => `
+        <label>
+          <input type="radio" name="q${index}" value="${i}">
+          (${String.fromCharCode(65+i)}) ${opt}
+        </label>
+      `).join("")}
+    </div>
+    <button class="check">检查答案</button>
+    <div class="result"></div>
+  `;
+  quizDiv.appendChild(qDiv);
+
+  const button = qDiv.querySelector("button.check");
+  const resultDiv = qDiv.querySelector(".result");
+
+  let done = false;
+
+  button.addEventListener("click", () => {
+    if (done) return;
+    const selected = qDiv.querySelector("input[type=radio]:checked");
+    if (!selected) {
+      alert("请先选择一个答案。");
+      return;
+    }
+    const val = parseInt(selected.value, 10);
+    done = true;
+    answeredCount++;
+
+    if (val === q.correct) {
+      score++;
+      resultDiv.textContent = "正确！做得很好。";
+      resultDiv.className = "result correct";
+    } else {
+      resultDiv.innerHTML = "回答错误。正确答案是 "
+        + String.fromCharCode(65 + q.correct) + "："
+        + q.options[q.correct] + "。<br><br>解释：" + q.explanation;
+      resultDiv.className = "result incorrect";
+    }
+    scoreBox.textContent = `已完成：${answeredCount} / ${questions.length} 题，得分：${score} 分`;
+  });
+});
+</script>
+
+</body>
+</html>
